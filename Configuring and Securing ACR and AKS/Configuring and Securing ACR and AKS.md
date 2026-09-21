@@ -13,6 +13,7 @@ _In this task, you will create a resource group for the lab and an Azure Contain
    - ```az provider register --namespace Microsoft.ContainerService```
    - ```az provider register --namespace Microsoft.ContainerRegistry```
 6. In the Bash session within the Cloud Shell pane, run the following to create a new Azure Container Registry (ACR) instance (The name of the ACR must be globally unique): ```az acr create --resource-group AZ500LAB09 --name az50065239665 --sku Basic```
+7. In the Bash session within the Cloud Shell pane, run the following to confirm that the new ACR was created: ```az acr list --resource-group AZ500LAB09 -o table```
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -68,24 +69,40 @@ _In this task, you will create an Azure Kubernetes service and review the deploy
 **AKS can be configured as a private cluster. This assigns a private IP to the API server to ensure network traffic between your API server and your node pools remains on the private network only. For more information, visit ```https://docs.microsoft.com/en-us/azure/aks/private-clusters page.```**
 7. Click Next and, on the Integrations tab of the Create Kubernetes cluster page, leave All values at default.
 📝 **In production scenarios, you would want to enable monitoring. Monitoring is disabled in this case since it is not covered in the lab.**
-8. Click Review + Create and then click Create.
+8. Click Review + Create and then click Create. <br> <img width="1424" height="427" alt="image" src="https://github.com/user-attachments/assets/cf165bb5-605f-41e1-8158-1e4e9c7c3386" />
 9. Once the deployment completes, in the Azure portal, in the Search resources, services, and docs text box at the top of the Azure portal page, type ```Resource groups``` and press the Enter key.
 10. On the Resource groups blade, in the listing of resource groups, note a new resource group named **MC_AZ500LAB09_MyKubernetesCluster_eastus2** that holds components of the AKS Nodes. Review resources in this resource group. <br> <img width="1424" height="772" alt="image" src="https://github.com/user-attachments/assets/97230a85-a04b-4f56-a8ea-2ed8237f0ab2" />
-11. Navigate back to the Resource groups blade and click the AZ500LAB09 entry. <br> <img width="1432" height="770" alt="image" src="https://github.com/user-attachments/assets/607e2cb1-9584-46cc-a782-795f86a95db2" />
+11. Navigate back to the Resource groups blade and click the AZ500LAB09 entry. <br> <img width="1435" height="770" alt="image" src="https://github.com/user-attachments/assets/ef1acf27-b731-413d-bee4-583c5e660aff" />
+
 12. In the Azure portal, open a Bash session in the Cloud Shell.
 13. In the Bash session within the Cloud Shell pane, run the following to connect to the Kubernetes cluster: ```az aks get-credentials --resource-group AZ500LAB09 --name MyKubernetesCluster```
 14. In the Bash session within the Cloud Shell pane, run the following to list nodes of the Kubenetes cluster: ```kubectl get nodes```
-15. 
-
+*Verify that the Status of the cluster node is listed as Ready.*
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 **Task 4: Grant the AKS cluster permissions to access the ACR**
+_In this task, you will grant the AKS cluster permission to access the ACR and manage its virtual network._
 
+1. In the Bash session within the Cloud Shell pane, run the following to configure the AKS cluster to use the Azure Container Registry instance you created earlier in this lab. ```ACRNAME=$(az acr list --resource-group AZ500LAB09 --query '[].{Name:name}' --output tsv)``` ```az aks update -n MyKubernetesCluster -g AZ500LAB09 --attach-acr $ACRNAME```
+_This command grants the 'acrpull' role assignment to the ACR. It may take a few minutes for this command to complete._
+2. In the Bash session within the Cloud Shell pane, run the following to grant the AKS cluster the Contributor role to its virtual network.
+   ```RG_AKS=AZ500LAB09```
+   ```RG_VNET=MC_AZ500LAB09_MyKubernetesCluster_eastus2```
+   ```AKS_VNET_NAME=aks-vnet-30198516```
+   ```AKS_CLUSTER_NAME=MyKubernetesCluster```
+   ```AKS_VNET_ID=$(az network vnet show --name $AKS_VNET_NAME --resource-group $RG_VNET --query id -o tsv)```
+   ```AKS_MANAGED_ID=$(az aks show --name $AKS_CLUSTER_NAME --resource-group $RG_AKS --query identity.principalId -o tsv)```
+   ```az role assignment create --assignee $AKS_MANAGED_ID --role "Contributor" --scope $AKS_VNET_ID```
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 **Task 5: Deploy an external service to AKS**
+_In this task, you will download the Manifest files, edit the YAML file, and apply your changes to the cluster._
 
+1. In the Bash session within the Cloud Shell pane, click the Upload/Download files icon, in the drop-down menu, click Upload, in the Open dialog box, navigate to the location where you downloaded the lab files, select **\Allfiles\Labs\09\nginxexternal.yaml** click Open. Next, select **\Allfiles\Labs\09\nginxinternal.yaml**, and click **Open**.
+2. In the Bash session within the Cloud Shell pane, run the following to identify the name of the Azure Container Registry instance: ```echo $ACRNAME```
+_Record the Azure Container Registry instance name. You will need it later in this task._
+3. In the Bash session within the Cloud Shell pane, run the following to open the nginxexternal.yaml file, so you can edit its content.
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 **Task 6: Verify the you can access an external AKS-hosted service**
