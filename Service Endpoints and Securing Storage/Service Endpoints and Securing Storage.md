@@ -159,11 +159,30 @@
 3. On the myVMPrivate blade, click Connect and, in the drop down menu, click Connect.
 4. Download the RDP file and use it to connect to the myVMPrivate Azure VM via Remote Desktop. When prompted to authenticate, provide the following credentials:
 5. Within the Remote Desktop session to myVMPrivate, click Start and then click Windows PowerShell ISE.
-6. Within the Windows PowerShell ISE window, open the Script pane, then paste and run the PowerShell script that you recorded earlier in this lab. The script has the following format:
+6. Within the Windows PowerShell ISE window, open the Script pane, then paste and run the PowerShell script that you recorded earlier in this lab. The script has the following format: <br> <img width="1273" height="806" alt="image" src="https://github.com/user-attachments/assets/be2157a9-291f-4f0a-9267-70c034c061b9" />
 7. Start File Explorer and verify that the Z: drive mapping has been successfully created.
-8. Next, from the console pane of the Windows PowerShell ISE console, run the following to verify that the virtual machine has no outbound connectivity to the internet:
+8. Next, from the console pane of the Windows PowerShell ISE console, run the following to verify that the virtual machine has no outbound connectivity to the internet: ```Test-NetConnection -ComputerName www.bing.com -Port 80``` <br> <img width="1209" height="814" alt="image" src="https://github.com/user-attachments/assets/d09d7cee-09d4-4558-bc5c-f00fcd5868dd" />
+9. Terminate the Remote Desktop session to the myVMPrivate Azure VM.
+    > At this point, you have confirmed that the virtual machine in the Private subnet can access the storage account.
 
 <br>
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 <br>
-Task 8: Test the storage connection from the public subnet to confirm that access is denied
+
+# Task 8: Test the storage connection from the public subnet to confirm that access is denied
+
+1. Navigate back to the Virtual machines blade.
+2. On the Virtual machines blade, click the myVMPublic entry.
+3. On the myVMPublic blade, click Connect and, in the drop down menu, click Connect.
+4. Click Connect via RDP and use it to connect to the myVMPublic Azure VM via Remote Desktop. When prompted to authenticate, enter your credential.
+5. Within the Remote Desktop session to myVMPublic, click Start and then click Windows PowerShell ISE.
+6. Within the Windows PowerShell ISE window, open the Script pane, then paste and run the same PowerShell script that you ran within the Remote Desktop session to the myVMPrivate Azure VM.
+    > This time, you will receive the New-PSDrive : Access is denied error.
+    > Access is denied because the myVmPublic virtual machine is deployed in the Public subnet. The Public subnet does not have a service endpoint enabled for the Azure Storage. The storage account only allows network access from the Private subnet.
+7. Next, from the console pane of the Windows PowerShell ISE console, run the following to verify that the virtual machine has outbound connectivity to the internet: ```Test-NetConnection -ComputerName www.bing.com -Port 80```
+   > The test will succeed because there is no outbound security rule to deny internet on the Public subnet.
+8. Terminate the Remote Desktop session to the myVMPublic Azure VM.
+   > At this point, you have confirmed that the virtual machine in the Public subnet cannot access the storage account, but has access to the internet.
+
+# Clean up resources
+> Remember to remove any newly created Azure resources that you no longer use. Removing unused resources ensures you will not incur unexpected costs.
