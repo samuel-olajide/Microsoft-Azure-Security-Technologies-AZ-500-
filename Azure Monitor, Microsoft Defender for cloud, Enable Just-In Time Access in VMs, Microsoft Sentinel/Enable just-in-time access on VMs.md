@@ -5,7 +5,7 @@
 1. In the search box at the top of the portal, enter virtual machines. Select Virtual machines in the search results.
 2. Select myVM.
 3. Select Configuration from the Settings section of myVM.
-4. Under Just-in-time VM access, select Enable just-in-time.
+4. Under Just-in-time VM access, select Enable just-in-time. <br> <img width="1434" height="770" alt="image" src="https://github.com/user-attachments/assets/1e4dacc2-6bda-4966-aa45-f8287986d126" />
 5. Under Just-in-time VM access, click on the link that reads Open Microsoft Defender for Cloud.
 6. By default, just-in-time access for the VM uses these settings:
    - Windows machines
@@ -29,7 +29,8 @@
 2. Select the VM to which you want to connect, and open the Connect page.
    - Azure checks to see if JIT is enabled on that VM.
      - If JIT isn't enabled for the VM, you're prompted to enable it.
-     - If JIT is enabled, select Request access to pass an access request with the requesting IP, time range, and ports that were configured for that VM. <br> <img width="4410" height="1995" alt="image" src="https://github.com/user-attachments/assets/20aae84f-c318-4b29-8cca-9ce52a2b8582" />
+     - If JIT is enabled, select Request access to pass an access request with the requesting IP, time range, and ports that were configured for that VM. <br> <img width="1434" height="771" alt="image" src="https://github.com/user-attachments/assets/598becac-cb04-4aef-89c5-55a1fe7bf4de" />
+
 
 > **Results**: You have explored various methods on how to enable JIT on your VMs and how to request access to VMs that have JIT enabled in Microsoft Defender for Cloud.
 
