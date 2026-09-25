@@ -6,3 +6,5 @@
 - A custom route that ensures all outbound workload traffic from the workload subnet must use the firewall.
 - Firewall Application rules that only allow outbound traffic to www.bing.com.
 - Firewall Network rules that allow external DNS server lookups.
+
+Path to lab file: https://drive.google.com/file/d/1PcvoWQSgRpqOGJ8Duzef8OBC-_zTXoyi/view?usp=drive_link
