@@ -99,12 +99,14 @@
     >PRIMARY KEY CLUSTERED ([PatientId] ASC) ON [PRIMARY] );
 13. After the table is created successfully, in the Object Explorer pane, expand the medical database node, the tables node, right-click the dbo.Patients node, and click Always Encrypted wizard….
       > This will initiate the Always Encrypted wizard.
+<img width="1442" height="840" alt="image" src="https://github.com/user-attachments/assets/e464efae-1738-4acc-a56e-60dd943208cc" />
 14. On the Introduction page, click Next.
 15. On the Column Selection page, select the SSN and Birthdate columns, set the Encryption Type of the SSN column to Deterministic and of the Birthdate column to Randomized, and click Next.
       > While performing the encryption if any error thrown like Exception has been thrown by the target of an invocation related to Rotary(Microsoft.SQLServer.Management.ServiceManagement) then make sure the Key Permission's values of Rotation Policy Operations are unchecked, if not in the Azure portal navigate to the Key Vault >> Access Policies >> Key Permissions >> Uncheck all the values under the Rotation Policy Operations >> Under Privileged Key Operations >> Uncheck Release.
 16. On the Master Key Configuration page, select Azure Key Vault, click Sign in. Make sure to only allow this App to sign in. When prompted, authenticate by using the same user account you used to provision the Azure Key Vault instance earlier in this lab, ensure that that Key Vault appears in the Select an Azure Key Vault drop down list, and click Next.
 17. On the Run Settings page, click Next.
 18. On the Summary page, click Finish to proceed with the encryption. When prompted, sign in again by using the same user account you used to provision the Azure Key Vault instance earlier in this lab.
-19. Once the encryption process is complete, on the Results page, click Close.
+19. Once the encryption process is complete, on the Results page, click Close. <br> <img width="1436" height="827" alt="image" src="https://github.com/user-attachments/assets/b74408f2-bc8c-42e5-bf1b-acf7d11a75d4" />
 20. In the SQL Server Management Studio console, in the Object Explorer pane, under the medical node, expand the Security and Always Encrypted Keys subnodes.
     > The Always Encrypted Keys subnode contains the Column Master Keys and Column Encryption Keys subfolders.
+<img width="1438" height="836" alt="image" src="https://github.com/user-attachments/assets/f21a7647-a84d-4f72-ade5-a6e75d4d9421" />
