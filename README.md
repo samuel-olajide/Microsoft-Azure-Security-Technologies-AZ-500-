@@ -1,6 +1,6 @@
 # Microsoft Azure Security Technologies (AZ-500) - Guided Labs
 
-This repository contains my work from completing guided hands-on labs based on the **Microsoft Azure Security Technologies (AZ-500)** exam objectives.
+This repository contains my work from completing guided hands-on labs based on **Microsoft Azure Security Technologies (AZ-500)**.
 
 The labs provided step-by-step instructions for configuring and securing different Azure services. I followed the provided exercises, performed the configurations in my Azure environment, and documented the steps and results with screenshots for reference.
 
